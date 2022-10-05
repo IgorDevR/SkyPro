@@ -1,13 +1,35 @@
-package mvc;
+package hw.skypro;
 
 public class Employee {
 
 	private String firstName ;
 	private String lastName ;
 
-	public Employee(String firstName, String lastName) {
+	private Integer salary;
+
+	private int Department;
+
+	public Integer getSalary() {
+		return salary;
+	}
+
+	public void setSalary(Integer salary) {
+		this.salary = salary;
+	}
+
+	public int getDepartment() {
+		return Department;
+	}
+
+	public void setDepartment(int department) {
+		Department = department;
+	}
+
+	public Employee(String firstName, String lastName, Integer salary, int department) {
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.salary = salary;
+		Department = department;
 	}
 
 	public String getFirstName() {
@@ -31,6 +53,8 @@ public class Employee {
 		return "Employee{" +
 				"firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
+				", salary=" + salary +
+				", Department='" + Department + '\'' +
 				'}';
 	}
 

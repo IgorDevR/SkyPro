@@ -1,9 +1,12 @@
-package mvc;
+package hw.skypro.controller;
 
 
+import hw.skypro.Employee;
+import hw.skypro.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -14,6 +17,7 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
+        this.employeeService.fillForTest();
     }
 
     @GetMapping()
@@ -21,11 +25,15 @@ public class EmployeeController {
         return "OK";
     }
 
+    @GetMapping(path = "/fillForTest")
+    public List<Employee> fillForTest() {
+        return employeeService.fillForTest();
+    }
+
     @GetMapping(path = "/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
-
+    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
+        return employeeService.addEmployee(firstName, lastName, salary, department);
     }
 
     @GetMapping(path = "/remove")
@@ -42,7 +50,7 @@ public class EmployeeController {
 
     @GetMapping(path = "/getall")
     @ResponseStatus(HttpStatus.OK)
-    public Map<Integer, Employee> getAllEmployee() {
+    public List<Employee> getAllEmployee() {
         return employeeService.getAllEmployee();
     }
 
