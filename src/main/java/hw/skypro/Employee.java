@@ -7,7 +7,7 @@ public class Employee {
 
 	private Integer salary;
 
-	private int Department;
+	private int department;
 
 	public Integer getSalary() {
 		return salary;
@@ -18,18 +18,18 @@ public class Employee {
 	}
 
 	public int getDepartment() {
-		return Department;
+		return department;
 	}
 
 	public void setDepartment(int department) {
-		Department = department;
+		this.department = department;
 	}
 
 	public Employee(String firstName, String lastName, Integer salary, int department) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.salary = salary;
-		Department = department;
+		this.department = department;
 	}
 
 	public String getFirstName() {
@@ -54,7 +54,7 @@ public class Employee {
 				"firstName='" + firstName + '\'' +
 				", lastName='" + lastName + '\'' +
 				", salary=" + salary +
-				", Department='" + Department + '\'' +
+				", Department='" + department + '\'' +
 				'}';
 	}
 
