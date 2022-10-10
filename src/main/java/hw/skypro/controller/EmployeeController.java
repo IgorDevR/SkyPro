@@ -4,10 +4,10 @@ package hw.skypro.controller;
 import hw.skypro.Employee;
 import hw.skypro.service.EmployeeService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/employee")
@@ -32,20 +32,26 @@ public class EmployeeController {
 
     @GetMapping(path = "/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
-        return employeeService.addEmployee(firstName, lastName, salary, department);
+    public Object addEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
+        Employee result = employeeService.addEmployee(firstName, lastName, salary, department);
+        return result != null ? result :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expectation Failed (CODE 400 Bad Request)");
     }
 
     @GetMapping(path = "/remove")
     @ResponseStatus(HttpStatus.OK)
-    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.removeEmployee(firstName, lastName);
+    public Object removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        Employee result = employeeService.removeEmployee(firstName, lastName);
+        return result != null ? result :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expectation Failed (CODE 400 Bad Request)");
     }
 
     @GetMapping(path = "/find")
     @ResponseStatus(HttpStatus.OK)
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.findEmployee(firstName, lastName);
+    public Object findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+        Employee result = employeeService.findEmployee(firstName, lastName);
+        return result != null ? result :
+                ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expectation Failed (CODE 400 Bad Request)");
     }
 
     @GetMapping(path = "/getall")
