@@ -1,6 +1,7 @@
 package hw.skypro;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,18 +9,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+@Service
 public class InputValidation {
 
-    public static String checkValid(String textName) {
+    public  String checkValid(String s) {
 
-        if (StringUtils.isEmpty(textName)
-                && StringUtils.isBlank(textName)) {
-            return null;
+        if (StringUtils.isBlank(s)
+                && !StringUtils.isAlpha(s)) {
+            new IncorrectException();
         }
-        if (!StringUtils.isAlpha(textName)){
-            return null;
-        }
-        return StringUtils.capitalize(textName);
+        return StringUtils.capitalize(s.toLowerCase());
     }
 
 

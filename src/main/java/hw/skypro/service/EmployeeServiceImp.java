@@ -2,32 +2,30 @@ package hw.skypro.service;
 
 import hw.skypro.Employee;
 import hw.skypro.InputValidation;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeServiceImp implements EmployeeService {
 
     public List<Employee> employees = new ArrayList<>();
+    private final InputValidation inputValidation;
+
+    public EmployeeServiceImp(InputValidation inputValidation) {
+        this.inputValidation = inputValidation;
+    }
 
     @Override
     public Employee addEmployee(String firstName, String lastName, int salary, int department) {
 
-        String validFirstName = InputValidation.checkValid(firstName);
-        String validLastName = InputValidation.checkValid(lastName);
-        if(validFirstName == null || validLastName == null){
-            return null;
-        }
 //        //условно максимум который можно добавить это 10. если больше то выбрасывается исключение
 //        if (employees.size() > 10) {
 //            throw new EmployeeArrayIsFullException();
 //        }
-        Employee emp = new Employee(validFirstName, validLastName, salary, department);
+        Employee emp = new Employee(inputValidation.checkValid(firstName), inputValidation.checkValid(lastName), salary, department);
         employees.add(emp);
         return emp;
 
@@ -36,16 +34,13 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     public Employee removeEmployee(String firstName, String lastName) {
 
-        String validFirstName = InputValidation.checkValid(firstName);
-        String validLastName = InputValidation.checkValid(lastName);
-        if(validFirstName == null || validLastName == null){
-            return null;
-        }
-        employees.stream().filter(e -> e.getFirstName().equals(validFirstName))
-                .filter(e -> e.getLastName().equals(validLastName)).map(e -> {
-                    employees.remove(e);
-                    return e;
-                });
+      for(Employee emp : employees){
+          if(emp.getFirstName().equals(inputValidation.checkValid(firstName))&& emp.getLastName()
+                  .equals(inputValidation.checkValid(lastName))){
+              employees.remove(emp);
+              return emp;
+          }
+      }
         throw new EmployeeAlreadyAddedException();
     }
 
@@ -53,15 +48,10 @@ public class EmployeeServiceImp implements EmployeeService {
     @Override
     public Employee findEmployee(String firstName, String lastName) {
 
-        String validFirstName = InputValidation.checkValid(firstName);
-        String validLastName = InputValidation.checkValid(lastName);
-        if(validFirstName == null || validLastName == null){
-            return null;
-        }
-
-        return employees.stream().filter(e -> e.getFirstName().equals(validFirstName))
-                .filter(e -> e.getLastName().equals(validLastName)).findFirst()
-                .orElseThrow(() -> new EmployeeNotFoundException());
+        return employees.stream().filter(e -> e.getFirstName()
+                .equals(inputValidation.checkValid(firstName)))
+                .filter(e -> e.getLastName().equals(inputValidation.checkValid(lastName)))
+                .findFirst().orElseThrow(() -> new EmployeeNotFoundException());
     }
 
     @Override
