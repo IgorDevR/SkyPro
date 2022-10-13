@@ -25,7 +25,7 @@ public class EmployeeServiceImp implements EmployeeService {
 //        if (employees.size() > 10) {
 //            throw new EmployeeArrayIsFullException();
 //        }
-        Employee emp = new Employee(inputValidation.checkValid(firstName), inputValidation.checkValid(lastName), salary, department);
+        Employee emp = new Employee(inputValidation.checkFirstNameValid(firstName), inputValidation.checkLastNameValid(lastName), salary, department);
         employees.add(emp);
         return emp;
 
@@ -35,8 +35,8 @@ public class EmployeeServiceImp implements EmployeeService {
     public Employee removeEmployee(String firstName, String lastName) {
 
       for(Employee emp : employees){
-          if(emp.getFirstName().equals(inputValidation.checkValid(firstName))&& emp.getLastName()
-                  .equals(inputValidation.checkValid(lastName))){
+          if(emp.getFirstName().equals(inputValidation.checkFirstNameValid(firstName))&& emp.getLastName()
+                  .equals(inputValidation.checkLastNameValid(lastName))){
               employees.remove(emp);
               return emp;
           }
@@ -49,8 +49,8 @@ public class EmployeeServiceImp implements EmployeeService {
     public Employee findEmployee(String firstName, String lastName) {
 
         return employees.stream().filter(e -> e.getFirstName()
-                .equals(inputValidation.checkValid(firstName)))
-                .filter(e -> e.getLastName().equals(inputValidation.checkValid(lastName)))
+                .equals(inputValidation.checkFirstNameValid(firstName)))
+                .filter(e -> e.getLastName().equals(inputValidation.checkLastNameValid(lastName)))
                 .findFirst().orElseThrow(() -> new EmployeeNotFoundException());
     }
 
