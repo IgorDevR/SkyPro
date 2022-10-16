@@ -1,6 +1,6 @@
 package hw.skypro.controller;
 
-import hw.skypro.Employee;
+import hw.skypro.model.Employee;
 import hw.skypro.service.DepartmentService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +15,7 @@ import java.util.Map;
 public class DepartmentController {
 
     private final DepartmentService departmentService;
+
 
 
     public DepartmentController(DepartmentService departmentService) {

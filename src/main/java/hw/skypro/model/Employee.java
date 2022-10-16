@@ -1,15 +1,17 @@
-package hw.skypro;
+package hw.skypro.model;
+
+import java.util.Objects;
 
 public class Employee {
 
 	private String firstName ;
 	private String lastName ;
 
-	private Integer salary;
+	private double salary;
 
 	private int department;
 
-	public Integer getSalary() {
+	public double getSalary() {
 		return salary;
 	}
 
@@ -25,7 +27,7 @@ public class Employee {
 		this.department = department;
 	}
 
-	public Employee(String firstName, String lastName, Integer salary, int department) {
+	public Employee(String firstName, String lastName, double salary, int department) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.salary = salary;
@@ -59,12 +61,19 @@ public class Employee {
 	}
 
 	@Override
-	public int hashCode() {
-		return super.hashCode();
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		Employee employee = (Employee) o;
+		boolean result = Double.compare(employee.salary, salary) == 0 &&
+				department == employee.department &&
+				Objects.equals(firstName, employee.firstName) &&
+				Objects.equals(lastName, employee.lastName);
+		return result;
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		return super.equals(obj);
+	public int hashCode() {
+		return Objects.hash(firstName, lastName, salary, department);
 	}
 }

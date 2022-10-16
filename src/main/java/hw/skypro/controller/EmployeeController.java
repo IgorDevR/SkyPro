@@ -1,7 +1,7 @@
 package hw.skypro.controller;
 
 
-import hw.skypro.Employee;
+import hw.skypro.model.Employee;
 import hw.skypro.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +17,6 @@ public class EmployeeController {
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
-        this.employeeService.fillForTest();
     }
 
     @GetMapping()
@@ -25,14 +24,9 @@ public class EmployeeController {
         return "OK";
     }
 
-    @GetMapping(path = "/fillForTest")
-    public List<Employee> fillForTest() {
-        return employeeService.fillForTest();
-    }
-
     @GetMapping(path = "/add")
     @ResponseStatus(HttpStatus.CREATED)
-    public Object addEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
+    public Object addEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam double salary, @RequestParam("departmentId") int department) {
         Employee result = employeeService.addEmployee(firstName, lastName, salary, department);
         return result != null ? result :
                 ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Expectation Failed (CODE 400 Bad Request)");

@@ -1,8 +1,6 @@
 package hw.skypro;
 
 
-import hw.skypro.service.EmployeeService;
-import hw.skypro.service.EmployeeServiceImp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
