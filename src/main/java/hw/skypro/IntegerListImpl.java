@@ -2,56 +2,53 @@ package hw.skypro;
 
 import java.util.Arrays;
 
-public class StringListImpl implements StringList {
+import static hw.skypro.SortMetods.sortInsertion;
 
-    private String[] stringArray;
+public class IntegerListImpl implements IntegerList {
+
+    private Integer[] integersArray;
     private int lastAddIndex = 0;
     private int size = 0;
 
-    public StringListImpl(int size) {
-        this.stringArray = new String[size];
+    public IntegerListImpl(int size) {
+        this.integersArray = new Integer[size];       
     }
 
+    private void sort(){
+        sortInsertion(integersArray);
+    }
 
     private void checkArrayOutOfBounds(int index) {
         if (lastAddIndex <= index || index < 0) {
             throw new ArrayOutOfBoundsException();
         }
     }
-
     private void resize() {
-        if (stringArray.length == size * 0.75) {
-            stringArray = Arrays.copyOf(stringArray, stringArray.length * 2);
+        if (integersArray.length == size * 0.75) {
+            integersArray = Arrays.copyOf(integersArray, integersArray.length * 2);
         }
     }
 
-    private void checkNotNull(String item) {
-        if (item == null) {
-            throw new NullPointerException();
-        }
-    }
 
     @Override
-    public String add(String item) {
-
-        checkNotNull(item);
+    public Integer add(int item) {
+       
         resize();
 
-        stringArray[lastAddIndex++] = item;
+        integersArray[lastAddIndex++] = item;
         size++;
         return item;
 
     }
 
     @Override
-    public String add(int index, String item) {
+    public Integer add(int index, int item) {
 
         checkArrayOutOfBounds(index);
-        checkNotNull(item);
         resize();
 
-        System.arraycopy(stringArray, index, stringArray, index + 1, lastAddIndex - index);
-        stringArray[index] = item;
+        System.arraycopy(integersArray, index, integersArray, index + 1, lastAddIndex - index);
+        integersArray[index] = item;
         lastAddIndex++;
         size++;
 
@@ -60,26 +57,23 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String set(int index, String item) {
+    public Integer set(int index, int item) {
 
         checkArrayOutOfBounds(index);
-        checkNotNull(item);
 
-        stringArray[index] = item;
+        integersArray[index] = item;
         return item;
 
     }
 
     @Override
-    public String remove(String item) {
-
-        checkNotNull(item);
+    public Integer removeForItem(int item) {
 
         for (int index = 0; index < size; index++) {
 
-            if (stringArray[index].equals(item)) {
-                String tmp = stringArray[index];
-                System.arraycopy(stringArray, index + 1, stringArray, index, lastAddIndex - index);
+            if (integersArray[index].equals(item)) {
+                Integer tmp = integersArray[index];
+                System.arraycopy(integersArray, index + 1, integersArray, index, lastAddIndex - index);
                 size--;
                 lastAddIndex--;
                 return tmp;
@@ -89,26 +83,24 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String remove(int index) {
+    public Integer removeForIndex(int index) {
 
         checkArrayOutOfBounds(index);
 
-        String tmp = stringArray[index];
+        Integer tmp = integersArray[index];
 
-        System.arraycopy(stringArray, index + 1, stringArray, index, lastAddIndex - index);
+        System.arraycopy(integersArray, index + 1, integersArray, index, lastAddIndex - index);
         size--;
         lastAddIndex--;
         return tmp;
     }
 
     @Override
-    public boolean contains(String item) {
-
-        checkNotNull(item);
+    public boolean contains(int item) {
 
         for (int index = 0; index < lastAddIndex; index++) {
 
-            if (stringArray[index].equals(item)) {
+            if (integersArray[index].equals(item)) {
                 return true;
             }
         }
@@ -116,13 +108,11 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public int indexOf(String item) {
-
-        checkNotNull(item);
+    public int indexOf(int item) {
 
         for (int index = 0; index < size; index++) {
 
-            if (stringArray[index].equals(item)) {
+            if (integersArray[index].equals(item)) {
                 return index;
             }
         }
@@ -130,13 +120,11 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public int lastIndexOf(String item) {
-
-        checkNotNull(item);
+    public int lastIndexOf(int item) {
 
         for (int index = size - 1; index >= 0; index--) {
 
-            if (stringArray[index].equals(item)) {
+            if (integersArray[index].equals(item)) {
                 return index;
             }
         }
@@ -144,16 +132,16 @@ public class StringListImpl implements StringList {
     }
 
     @Override
-    public String get(int index) {
+    public Integer get(int index) {
 
         checkArrayOutOfBounds(index);
 
-        return stringArray[index];
+        return integersArray[index];
 
     }
 
     @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntegerList otherList) {
 
         if (otherList == null) {
             throw new NullPointerException();
@@ -163,8 +151,8 @@ public class StringListImpl implements StringList {
         }
         var eq = otherList.toArray();
         for (int i = 0; i < size; i++) {
-            checkNotNull(eq[i]);
-            if (stringArray[i] != eq[i])
+
+            if (integersArray[i] != eq[i])
                 return false;
         }
 
@@ -183,18 +171,20 @@ public class StringListImpl implements StringList {
 
     @Override
     public void clear() {
-        stringArray = new String[stringArray.length];
+        integersArray = new Integer[integersArray.length];
         size = 0;
         lastAddIndex = 0;
     }
 
     @Override
-    public String[] toArray() {
+    public Integer[] toArray() {
 
-        String[] strArr = new String[size];
+        Integer[] strArr = new Integer[size];
         for (int i = 0; i < size; i++) {
-            if (stringArray[i] != null)
-                strArr[i] = stringArray[i];
+            if (integersArray[i] != null) {
+                strArr[i] = integersArray[i];
+            }
+
         }
         return strArr;
     }
