@@ -19,12 +19,24 @@ public class StringListImpl implements StringList {
         }
     }
 
-    @Override
-    public String add(String item) {
-
+    private void resize() {
         if (stringArray.length == size * 0.75) {
             stringArray = Arrays.copyOf(stringArray, stringArray.length * 2);
         }
+    }
+
+    private void checkNotNull(String item) {
+        if (item == null) {
+            throw new NullPointerException();
+        }
+    }
+
+    @Override
+    public String add(String item) {
+
+        checkNotNull(item);
+        resize();
+
         stringArray[lastAddIndex++] = item;
         size++;
         return item;
@@ -35,6 +47,8 @@ public class StringListImpl implements StringList {
     public String add(int index, String item) {
 
         checkArrayOutOfBounds(index);
+        checkNotNull(item);
+        resize();
 
         System.arraycopy(stringArray, index, stringArray, index + 1, lastAddIndex - index);
         stringArray[index] = item;
@@ -49,6 +63,7 @@ public class StringListImpl implements StringList {
     public String set(int index, String item) {
 
         checkArrayOutOfBounds(index);
+        checkNotNull(item);
 
         stringArray[index] = item;
         return item;
@@ -58,7 +73,9 @@ public class StringListImpl implements StringList {
     @Override
     public String remove(String item) {
 
-        for (int index = 0; index < lastAddIndex; index++) {
+        checkNotNull(item);
+
+        for (int index = 0; index < size; index++) {
 
             if (stringArray[index].equals(item)) {
                 String tmp = stringArray[index];
@@ -73,6 +90,7 @@ public class StringListImpl implements StringList {
 
     @Override
     public String remove(int index) {
+
         checkArrayOutOfBounds(index);
 
         String tmp = stringArray[index];
@@ -86,6 +104,8 @@ public class StringListImpl implements StringList {
     @Override
     public boolean contains(String item) {
 
+        checkNotNull(item);
+
         for (int index = 0; index < lastAddIndex; index++) {
 
             if (stringArray[index].equals(item)) {
@@ -98,6 +118,8 @@ public class StringListImpl implements StringList {
     @Override
     public int indexOf(String item) {
 
+        checkNotNull(item);
+
         for (int index = 0; index < size; index++) {
 
             if (stringArray[index].equals(item)) {
@@ -109,6 +131,9 @@ public class StringListImpl implements StringList {
 
     @Override
     public int lastIndexOf(String item) {
+
+        checkNotNull(item);
+
         for (int index = size - 1; index >= 0; index--) {
 
             if (stringArray[index].equals(item)) {
@@ -133,11 +158,12 @@ public class StringListImpl implements StringList {
         if (otherList == null) {
             throw new NullPointerException();
         }
-        if(size != otherList.size()){
+        if (size != otherList.size()) {
             return false;
         }
         var eq = otherList.toArray();
         for (int i = 0; i < size; i++) {
+            checkNotNull(eq[i]);
             if (stringArray[i] != eq[i])
                 return false;
         }
