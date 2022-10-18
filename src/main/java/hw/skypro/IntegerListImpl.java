@@ -14,8 +14,41 @@ public class IntegerListImpl implements IntegerList {
         this.integersArray = new Integer[size];       
     }
 
-    private void sort(){
-        sortInsertion(integersArray);
+    //protected для проверки в тестах
+    protected void sort() {
+        for (int i = 1; i < size; i++) {
+            int temp = integersArray[i];
+            int j = i;
+            while (j > 0 && integersArray[j - 1] >= temp) {
+                integersArray[j] = integersArray[j - 1];
+                j--;
+            }
+            integersArray[j] = temp;
+        }
+    }
+
+    //protected для проверки в тестах
+    protected boolean binarySearch(int element){
+
+        sort();
+
+        int min = 0;
+        int max = size - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (element == integersArray[mid]) {
+                return true;
+            }
+
+            if (element < integersArray[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
+            }
+        }
+        return false;
     }
 
     private void checkArrayOutOfBounds(int index) {

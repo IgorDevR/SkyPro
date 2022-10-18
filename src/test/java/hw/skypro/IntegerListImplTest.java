@@ -15,8 +15,42 @@ class IntegerListImplTest {
     void init() {
         out = new IntegerListImpl(5);
     }
-    
-    
+
+
+    @Test
+    void sort() {
+
+        out.add(0);
+        out.add(2);
+        out.add(4);
+        out.add(3);
+
+        assertThat(out.get(0)).isEqualTo(0);
+        assertThat(out.get(1)).isEqualTo(2);
+        assertThat(out.get(2)).isEqualTo(4);
+        assertThat(out.get(3)).isEqualTo(3);
+
+        out.sort();
+
+        assertThat(out.get(0)).isEqualTo(0);
+        assertThat(out.get(1)).isEqualTo(2);
+        assertThat(out.get(2)).isEqualTo(3);
+        assertThat(out.get(3)).isEqualTo(4);
+    }
+
+    @Test
+    void binarySearch() {
+
+        out.add(0);
+        out.add(2);
+        out.add(4);
+        out.add(3);
+
+        assertThat(out.binarySearch(3)).isTrue();
+        assertThat(out.binarySearch(22)).isFalse();
+    }
+
+
     @Test
     void addAdnGetTest() {
 
@@ -60,7 +94,7 @@ class IntegerListImplTest {
         assertThat(out.set(3, 0)).isEqualTo(0);
         assertThat(out.get(3)).isEqualTo(0);
 
-        assertThatExceptionOfType(ArrayOutOfBoundsException.class).isThrownBy(() -> out.set(222,10));
+        assertThatExceptionOfType(ArrayOutOfBoundsException.class).isThrownBy(() -> out.set(222, 10));
     }
 
     @Test
@@ -142,7 +176,7 @@ class IntegerListImplTest {
 
         assertThat(out.equals(integerList2)).isTrue();
 
-        integerList2.set(0,1);
+        integerList2.set(0, 1);
         assertThat(out.equals(integerList2)).isFalse();
 
         integerList2.add(1);
