@@ -131,13 +131,15 @@ public class IntegerListImpl implements IntegerList {
     @Override
     public boolean contains(int item) {
 
-        for (int index = 0; index < lastAddIndex; index++) {
+//        for (int index = 0; index < lastAddIndex; index++) {
+//
+//            if (integersArray[index].equals(item)) {
+//                return true;
+//            }
+//        }
+//        return false;
 
-            if (integersArray[index].equals(item)) {
-                return true;
-            }
-        }
-        return false;
+        return binarySearch(item);
     }
 
     @Override

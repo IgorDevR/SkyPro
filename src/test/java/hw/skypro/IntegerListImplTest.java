@@ -98,14 +98,14 @@ class IntegerListImplTest {
     }
 
     @Test
-    void removeEl() {
+    void removeForItem() {
 
         out.add(0);
         out.add(1);
         out.add(2);
         out.add(3);
 
-        assertThat(out.removeForIndex(2)).isEqualTo(2);
+        assertThat(out.removeForItem(2)).isEqualTo(2);
         assertThat(out.get(0)).isEqualTo(0);
         assertThat(out.get(1)).isEqualTo(1);
         assertThat(out.get(2)).isEqualTo(3);
