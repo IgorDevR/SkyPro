@@ -57,7 +57,7 @@ public class IntegerListImpl implements IntegerList {
         }
     }
     private void resize() {
-        if (integersArray.length == size * 0.75) {
+        if (integersArray.length == size) {
             integersArray = Arrays.copyOf(integersArray, integersArray.length * 2);
         }
     }
