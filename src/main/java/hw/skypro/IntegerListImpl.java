@@ -80,8 +80,8 @@ public class IntegerListImpl implements IntegerList {
     }
 
     private void grow() {
-        if (integersArray.length == size * 0.75) {
-            integersArray = Arrays.copyOf(integersArray, (int) (integersArray.length * 1.5));
+        if (integersArray.length == size ) {
+            integersArray = Arrays.copyOf(integersArray, (int) (integersArray.length * 1.5f ));
         }
     }
 

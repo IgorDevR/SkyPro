@@ -18,6 +18,21 @@ class IntegerListImplTest {
 
 
     @Test
+    void grow(){
+
+        assertThat(out.getIntegersArray().length).isEqualTo(5);
+
+        out.add(7);
+        out.add(2);
+        out.add(4);
+        out.add(3);
+        out.add(0);
+        out.add(0);
+
+        assertThat(out.getIntegersArray().length).isEqualTo((int)(5 * 1.5));
+    }
+
+    @Test
     void quickSort() {
 
         out.add(7);
