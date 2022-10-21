@@ -20,7 +20,7 @@ public class StringListImpl implements StringList {
     }
 
     private void resize() {
-        if (stringArray.length == size * 0.75) {
+        if (stringArray.length == size) {
             stringArray = Arrays.copyOf(stringArray, stringArray.length * 2);
         }
     }
