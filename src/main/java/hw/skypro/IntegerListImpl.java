@@ -2,35 +2,57 @@ package hw.skypro;
 
 import java.util.Arrays;
 
-import static hw.skypro.SortMetods.sortInsertion;
-
 public class IntegerListImpl implements IntegerList {
 
     private Integer[] integersArray;
+
+
     private int lastAddIndex = 0;
     private int size = 0;
 
     public IntegerListImpl(int size) {
-        this.integersArray = new Integer[size];       
+        this.integersArray = new Integer[size];
+    }
+
+    public Integer[] getIntegersArray() {
+        return integersArray;
     }
 
     //protected для проверки в тестах
-    protected void sort() {
-        for (int i = 1; i < size; i++) {
-            int temp = integersArray[i];
-            int j = i;
-            while (j > 0 && integersArray[j - 1] >= temp) {
-                integersArray[j] = integersArray[j - 1];
-                j--;
-            }
-            integersArray[j] = temp;
+    protected void quickSort(Integer[] arr, int begin, int end) {
+        if (begin < end) {
+            int partitionIndex = partition(arr, begin, end);
+
+            quickSort(arr, begin, partitionIndex - 1);
+            quickSort(arr, partitionIndex + 1, end);
         }
     }
 
-    //protected для проверки в тестах
-    protected boolean binarySearch(int element){
+    private static int partition(Integer[] arr, int begin, int end) {
+        int pivot = arr[end];
+        int i = (begin - 1);
 
-        sort();
+        for (int j = begin; j < end; j++) {
+            if (arr[j] <= pivot) {
+                i++;
+
+                int temp = arr[i];
+                arr[i] = arr[j];
+                arr[j] = temp;
+            }
+        }
+
+        int temp = arr[i + 1];
+        arr[i + 1] = arr[end];
+        arr[end] = temp;
+
+        return i + 1;
+    }
+
+    //protected для проверки в тестах
+    protected boolean binarySearch(int element) {
+
+        quickSort(integersArray, 0, integersArray[integersArray.length - 1]);
 
         int min = 0;
         int max = size - 1;
@@ -56,17 +78,18 @@ public class IntegerListImpl implements IntegerList {
             throw new ArrayOutOfBoundsException();
         }
     }
-    private void resize() {
+
+    private void grow() {
         if (integersArray.length == size * 0.75) {
-            integersArray = Arrays.copyOf(integersArray, integersArray.length * 2);
+            integersArray = Arrays.copyOf(integersArray, (int) (integersArray.length * 1.5));
         }
     }
 
 
     @Override
     public Integer add(int item) {
-       
-        resize();
+
+        grow();
 
         integersArray[lastAddIndex++] = item;
         size++;
@@ -78,7 +101,7 @@ public class IntegerListImpl implements IntegerList {
     public Integer add(int index, int item) {
 
         checkArrayOutOfBounds(index);
-        resize();
+        grow();
 
         System.arraycopy(integersArray, index, integersArray, index + 1, lastAddIndex - index);
         integersArray[index] = item;

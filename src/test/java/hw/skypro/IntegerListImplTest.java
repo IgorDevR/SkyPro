@@ -18,24 +18,27 @@ class IntegerListImplTest {
 
 
     @Test
-    void sort() {
+    void quickSort() {
 
-        out.add(0);
+        out.add(7);
         out.add(2);
         out.add(4);
         out.add(3);
+        out.add(0);
 
-        assertThat(out.get(0)).isEqualTo(0);
+        assertThat(out.get(0)).isEqualTo(7);
         assertThat(out.get(1)).isEqualTo(2);
         assertThat(out.get(2)).isEqualTo(4);
         assertThat(out.get(3)).isEqualTo(3);
+        assertThat(out.get(4)).isEqualTo(0);
 
-        out.sort();
+        out.quickSort(out.getIntegersArray(),0, out.getIntegersArray().length - 1);
 
         assertThat(out.get(0)).isEqualTo(0);
         assertThat(out.get(1)).isEqualTo(2);
         assertThat(out.get(2)).isEqualTo(3);
         assertThat(out.get(3)).isEqualTo(4);
+        assertThat(out.get(4)).isEqualTo(7);
     }
 
     @Test
