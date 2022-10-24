@@ -28,6 +28,7 @@ public class JavaQuestionController {
     Question removeQuestion(@RequestParam String question, @RequestParam String answer) {
         return service.remove(question);
     }
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
     Collection<Question> getQuestions() {
         return service.getAll();

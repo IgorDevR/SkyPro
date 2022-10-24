@@ -17,8 +17,9 @@ public class ExamController {
         this.service = service;
     }
 
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    Collection<Question> getQuestions(@RequestParam int amount){
+    Collection<Question> getQuestions(@RequestParam(value = "amount") int amount) {
         return service.getQuestions(amount);
     }
 
