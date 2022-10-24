@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class JavaQuestionService implements QuestionService {
@@ -52,7 +53,9 @@ public class JavaQuestionService implements QuestionService {
     @Override
     public Question getRandomQuestion() {
 
-        questions.stream().findFirst().get();
-        return questions.stream().findFirst().get();
+        Random random = new Random();
+        int randNum = random.nextInt(questions.size());
+        return questions.stream().collect(Collectors.toList()).get(randNum);
+
     }
 }
