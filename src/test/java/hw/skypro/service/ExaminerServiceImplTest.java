@@ -9,50 +9,57 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
-//@ExtendWith(MockitoExtension.class)
+@ExtendWith(MockitoExtension.class)
 class ExaminerServiceImplTest {
 
-//    @Mock
+    @Mock
     private JavaQuestionService service;
-//    @InjectMocks
+    @InjectMocks
     private ExaminerServiceImpl out;
+
+    List<Question> testQuestions = new ArrayList<>();
+
+    @BeforeEach
+    void init() {
+
+        testQuestions.add(new Question("TestA1", "TestQ1"));
+        testQuestions.add(new Question("TestA2", "TestQ2"));
+        testQuestions.add(new Question("TestA3", "TestQ3"));
+        testQuestions.add(new Question("TestA4", "TestQ4"));
+        testQuestions.add(new Question("TestA5", "TestQ5"));
+
+        when(service.getAll()).thenReturn(testQuestions);
+
+    }
+
 
     @Test
     void getQuestions() {
 
-        service = new JavaQuestionService();
-        service.add("TestA1", "TestQ1");
-        service.add("TestA2", "TestQ2");
-        service.add("TestA3", "TestQ3");
-        service.add("TestA4", "TestQ4");
-        service.add("TestA5", "TestQ5");
+        when(service.getRandomQuestion()).thenAnswer((i) -> testQuestions.stream()
+                .skip(ThreadLocalRandom.current().nextInt(testQuestions.size()))
+                .findFirst()
+                .orElseThrow());
 
-        out = new ExaminerServiceImpl(service);
+        assertThat(Set.copyOf(out.getQuestions(0)).size()).isEqualTo(0);
+        assertThat(Set.copyOf(out.getQuestions(5)).size()).isEqualTo(5);
 
-        List<Question> list = new ArrayList<>();
-        var q = out.getQuestions(5).stream().toList();
-        list = out.getQuestions(5).stream().toList();
 
-        assertThat(list.get(0) != list.get(1) && list.get(1) != list.get(2)
-        && list.get(2) != list.get(3) &&list.get(3) != list.get(4)).isTrue();
+    }
 
-        List<Question> list2 = new ArrayList<>();
-        list2 = out.getQuestions(5).stream().toList();
-
-        assertThat(list.equals(list2)).isFalse();
+    @Test
+    void getQuestionsException() {
 
         assertThatExceptionOfType(RequestExceedsNumberOfDataException.class)
                 .isThrownBy(() -> out.getQuestions(7));
     }
-
 
 }
